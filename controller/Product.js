@@ -13,6 +13,7 @@ exports.CreatProduct = (req,res,next)=>{
     const product = new Product(req.body)
     product.save().then(result=>{
 
+    console.log(CategoryId)
     if (CategoryId !== undefined)
     {
         //Add Category Field If not Exist
@@ -32,13 +33,16 @@ exports.CreatProduct = (req,res,next)=>{
                 res.status(500).json(err)
             })
         }
+        else{
+            res.status(200).json(result)
+        }
 
     })
     }
 
     else{
 
-        res.status(200).json({result})
+        res.status(200).json(result)
     }
 
     }).catch(err=>{
