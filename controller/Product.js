@@ -4,6 +4,7 @@ const { ObjectId } = require("mongodb");
 // Import Product and Category Model
 const Product = require('../model/Product');
 const Category = require("../model/Category");
+const { findOneAndUpdate } = require('../model/Product');
 
 
 /* -----------------  Create Product and Add Category If Category Not Already Exist -------------------*/
@@ -28,13 +29,13 @@ exports.CreatProduct = (req,res,next)=>{
             })
 
             category.save().then(categoryResult=>{
-                res.status(200).json({Products:result,CategoryData:categoryResult})
+                res.status(201).json({Products:result,CategoryData:categoryResult})
             }).catch(err=>{
                 res.status(500).json(err)
             })
         }
         else{
-            res.status(200).json(result)
+            res.status(201).json(result)
         }
 
     })
@@ -69,7 +70,7 @@ exports.ReadAllProuct =(req,res,next)=>{
 
    }).catch(err=>{
 
-       res.status(500).json(err);
+       res.status(404).json(err);
 
    })
    
@@ -143,14 +144,14 @@ exports.updateProduct = (req,res,next)=>{
             break;
         
     }
-
-    Product.updateOne({ProductId:productId}, UpdateFilter).then(result=>{
+    
+    Product.findOneAndUpdate({ProductId:productId}, UpdateFilter).then(result=>{
 
         res.status(200).json(result);
 
     }).catch(err=>{
 
-        res.status(500).json(err);
+        res.status(404).json(err);
 
     })
 
@@ -164,11 +165,13 @@ exports.deleteProduct = (req,res,next)=>{
 
     Product.findOneAndDelete({ProductId:productId}).then(result=>{
 
+
+
         res.status(200).json(result);
 
     }).catch(err=>{
 
-        res.status(500).json(err);
+        res.status(404).json(err);
     })
 
 }
