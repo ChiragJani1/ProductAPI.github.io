@@ -1,12 +1,13 @@
-let express = require("express");
-let bodyParser = require("body-parser");
-let userRoutes = require("./routes/user")
-let mongoose = require("mongoose");
+const express = require("express");
+const cors = require('cors')
+const bodyParser = require("body-parser");
+const userRoutes = require("./routes/user")
+const mongoose = require("mongoose");
 
-let app  = express();
+const app  = express();
 
 app.use(express.json())
-app.use(bodyParser.urlencoded({urlencoded:true}));
+app.use(express.urlencoded({extended:false}));
 
 app.use("/",userRoutes)
 
